@@ -2,7 +2,7 @@ import React from "react";
 import LoginPage from "./LoginPage";
 import ItineraryListPage from "./ItineraryListPage";
 import Itinerary from "./ItineraryPage";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
 const App = () => {
@@ -17,4 +17,4 @@ const App = () => {
   );
 };
 
-export default App
+export default App;

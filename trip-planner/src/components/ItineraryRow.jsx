@@ -1,6 +1,6 @@
 import React from "react";
 
-const ItineraryRow = ({ itinerary}) => {
+const ItineraryRow = ({ itinerary }) => {
 
     return (
         <tr>

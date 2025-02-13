@@ -4,7 +4,7 @@ const Itinerary = () => {
     return (
       <div>
         <h1>Plan your trip</h1>
-        <div className="mt-4">
+        <div>
           <label>Destination</label>
           <input type="text" placeholder="Where to?" />
           <label >Dates</label>

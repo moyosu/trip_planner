@@ -21,7 +21,7 @@ const ItineraryListPage = () => {
   return (
     <div>
       <h1>Itineraries</h1>
-      <ItineraryTable itineraries={itineraries} />
+      <ItineraryTable itineraries = { itineraries } />
     </div>
   );
 };
