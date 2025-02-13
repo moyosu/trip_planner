@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ItineraryTable from "./components/ItineraryTable";
 
 const ItineraryListPage = () => {
-    return (
-      <div>
-        <h1>Itineraries</h1>
-        <p>Upcoming trips</p>
-        <div>
-          {[1, 2, 3].map((item) => (
-            <div key={item}>
-              Itinerary {item}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+  const [itineraries, setItineraries] = useState([]);
+
+  const fetchItineraries = async () => {
+    try {
+      const response = await fetch('/itineraries');
+      const data = await response.json();
+      setItineraries(data);
+    } catch (error) {
+      console.error('Failed to fetch itineraries:', error);
+    }
   };
 
-  export default ItineraryListPage
+  useEffect(() => {
+    fetchItineraries();
+  }, []);
+
+  return (
+    <div>
+      <h1>Itineraries</h1>
+      <ItineraryTable itineraries={itineraries} />
+    </div>
+  );
+};
+
+export default ItineraryListPage;

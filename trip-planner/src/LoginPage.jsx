@@ -4,7 +4,7 @@ import { useNavigate }from "react-router-dom";
 // Login Page
 const LoginPage = () => {
     const navigate = useNavigate();
-
+    
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const correctUsername = "moy";
@@ -12,7 +12,7 @@ const LoginPage = () => {
 
     const handleLogin = () => {
         if (username == correctUsername && password == correctPassword) {
-            navigate("itineraries");
+            navigate("/homepage");
         } else {
             alert("Invalid username and/or password.");
         }
