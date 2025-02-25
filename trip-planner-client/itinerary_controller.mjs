@@ -10,8 +10,11 @@ const requestValidation = [
         const allowedProperties = ['destination', 'startDate', 'endDate'];
         const keys = Object.keys(req.body);
 
-        if (keys.length !== 3 || !keys.every((key) => allowedProperties.includes(key))) {
-            return res.status(400).json({ Error: 'Invalid Request Inputs' });
+        // Check if all required properties are present
+        const hasRequiredProperties = allowedProperties.every((key) => keys.includes(key));
+        
+        if (!hasRequiredProperties) {
+            return res.status(400).json({ Error: 'Invalid Request Inputs: Missing required fields' });
         }
         next();
     },
