@@ -17,8 +17,8 @@ const requestValidation = [
     },
 
     check('destination').exists().isString().notEmpty(),
-    check('startDate').exists().matches(/^(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{2}$/),
-    check('endDate').exists().matches(/^(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{2}$/),
+    check('startDate').exists().matches(/^(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{4}$/),
+    check('endDate').exists().matches(/^(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{4}$/),
 
     (req, res, next) => {
         const errors = validationResult(req);
@@ -40,7 +40,7 @@ app.listen(PORT, async () => {
 });
 
 // POST - Create an itinerary
-app.post('/itineraries', asyncHandler(async (req, res) => {
+app.post('/itineraries', requestValidation, asyncHandler(async (req, res) => {
     const { destination, startDate, endDate } = req.body;
     try {
         const newItinerary = await itineraries.createItinerary(destination, startDate, endDate);
@@ -51,14 +51,64 @@ app.post('/itineraries', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET - Get an itinerary
+// GET - Get all itineraries
 app.get('/itineraries', asyncHandler(async (req, res) => {
     const query = req.query;
     try {
-        const itineraryList = await itineraries.getItinerary(query);
+        const itineraryList = await itineraries.getItineraries(query);
         res.status(200).json(itineraryList);
     } catch (err) {
         res.status(500).json({message: 'Failed to retrieve exercises.'});
+    }
+}));
+
+// GET - Get a single itinerary by ID
+app.get('/itineraries/:id', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    try { 
+        const itinerary = await itineraries.getItinerary(id);
+        if (itinerary) {
+            res.status(200).json(itinerary);
+        } else {
+            res.status(404).json({ Error: 'Itinerary not found' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ Error: 'Invalid request' });
+    }
+}));
+
+
+// PUT - Update an itinerary
+app.put('/itineraries/:id', requestValidation, asyncHandler(async (req, res) => {
+    const { destination, startDate, endDate } = req.body;
+    const id = req.params.id;
+    try {
+        const updatedItinerary = await itineraries.updateItinerary(id, destination, startDate, endDate);
+        if (updatedItinerary) {
+            res.status(200).json(updatedItinerary);
+        } else {
+            res.status(404).json({ Error: 'Itinerary not found' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(401).json({ Error: 'Invalid request' });
+    }
+}));
+
+// DELETE - Delete an itinerary
+app.delete('/itineraries/:id', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    try {
+        const deletedItinerary = await itineraries.deleteItinerary(id);
+        if (deletedItinerary) {
+            res.status(204).send();
+        } else {
+            res.status(404).json({ Error: 'Itinerary not found' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ Error: 'Invalid request' });
     }
 }));
 

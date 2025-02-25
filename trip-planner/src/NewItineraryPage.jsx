@@ -4,17 +4,13 @@ import { useNavigate } from "react-router-dom";
 // Define a constant for the base URL
 const BASE_URL = 'http://localhost:5173'; // Change the port here if needed
 
-const Itinerary = () => {
+const NewItineraryPage = () => {
   const navigate = useNavigate();
   
   // State to hold input values
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
-  const handleNavigate = () => {
-    navigate("/homepage");
-  };
 
   const handleSaveItinerary = async () => {
     const itineraryData = {
@@ -24,7 +20,7 @@ const Itinerary = () => {
     };
 
     try {
-      const response = await fetch(`${BASE_URL}/itineraries`, { // Use the constant here
+      const response = await fetch(`${BASE_URL}/itineraries`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,8 +34,7 @@ const Itinerary = () => {
 
       const result = await response.json();
       console.log('Itinerary created:', result);
-      // Optionally navigate back to the homepage or show a success message
-      navigate("/homepage");
+      navigate("/homepage"); // Navigate back to the homepage after creation
     } catch (error) {
       console.error('Error creating itinerary:', error);
     }
@@ -47,7 +42,7 @@ const Itinerary = () => {
 
   return (
     <div>
-      <h1>Plan your trip</h1>
+      <h1>Create New Itinerary</h1>
       <div>
         <label>Destination</label>
         <input 
@@ -56,24 +51,24 @@ const Itinerary = () => {
           value={destination} 
           onChange={(e) => setDestination(e.target.value)} 
         />
-        <label>Dates</label>
+        <label>Start Date</label>
         <input 
           type="text" 
           placeholder="Start date" 
           value={startDate} 
           onChange={(e) => setStartDate(e.target.value)} 
         />
+        <label>End Date</label>
         <input 
           type="text" 
           placeholder="End date" 
           value={endDate} 
           onChange={(e) => setEndDate(e.target.value)} 
         />
-        <button onClick={handleSaveItinerary}>SAVE ITINERARY</button>
-        <button onClick={handleNavigate}>SEE ITINERARIES</button>
+        <button onClick={handleSaveItinerary}>Save Itinerary</button>
       </div>
     </div>
   );
 };
 
-export default Itinerary;
+export default NewItineraryPage; 

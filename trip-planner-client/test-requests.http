@@ -1,0 +1,46 @@
+@itineraryId = 67acd4fa4f5e4baf93674ed9
+
+### Request: Create an itinerary
+### Response
+### Status Code: 201
+### Body: The created itinerary document
+POST http://localhost:3000/itineraries HTTP/1.1
+content-type: application/json
+
+{
+    "destination": "Paris",
+    "startDate": "07-18-2024",
+    "endDate": "07-18-2025"
+}
+
+### Request: Retrieve all
+### Response
+### Status Code: 200 
+### Body: A JSON array with the 4 objects, one for each itinerary we created
+GET http://localhost:3000/itineraries HTTP/1.1
+
+### Request: Retrieve a single itinerary by ID
+### Response
+### Status Code: 200 
+### Body: The retrieved itinerary document
+GET http://localhost:3000/itineraries/{{itineraryId}} HTTP/1.1
+
+### Request: Update an itinerary
+### Response
+### Status Code: 200 
+### Body: The updated itinerary document
+PUT http://localhost:3000/itineraries/{{itineraryId}} HTTP/1.1
+content-type: application/json
+
+{
+    "destination": "Paris",
+    "startDate": "07-18-2024",
+    "endDate": "07-18-2025"
+}
+
+### Request: Delete an itinerary
+### Response
+### Status Code: 204 
+### Body: None
+DELETE http://localhost:3000/itineraries/{{itineraryId}} HTTP/1.1
+

@@ -37,17 +37,16 @@ function createModel() {
 
 /**
  * Creates an itinerary
- * @param {string} destination 
- * @param {Date} startDate
- * @param {Date} endDate
- * @returns 
  */
 async function createItinerary(destination, startDate, endDate){
     const itinerary = new Itinerary({destination: destination, startDate: startDate, endDate: endDate})
     return itinerary.save();
 }
 
-async function getItinerary(query) {
+/**
+ * Retrieves all itineraries based on the provided query parameters
+ */
+async function getItineraries(query) {
     try {
         const filter = {};
         if (query.destination) filter.destination = query.destination;
@@ -62,5 +61,49 @@ async function getItinerary(query) {
     }
 }
 
+/**
+ * Retrieves a single itinerary by ID
+ */
+async function getItinerary(id) {
+    try {
+        const itinerary = await Itinerary.findById(id);
+        return itinerary;
+    } catch (err) {
+        console.log(err);
+        throw Error(`Could not retrieve itinerary: ${err.message}`);
+    }
+}
 
-export { connect, createItinerary, getItinerary };
+/**
+ * Updates an itinerary by ID
+ */
+async function updateItinerary(id, destination, startDate, endDate) {
+    try {
+        const updatedItinerary = await Itinerary.findByIdAndUpdate(
+            id,
+            { destination, startDate, endDate },
+            { new: true, runValidators: true }
+        );
+        return updatedItinerary;
+    } catch (err) {
+        console.log(err);
+        throw Error(`Could not update itinerary: ${err.message}`);
+    }
+}
+
+/**
+ * Deletes an itinerary by ID
+ */
+async function deleteItinerary(id) {
+    try {
+        const deletedItinerary = await Itinerary.findByIdAndDelete(id);
+        return deletedItinerary !== null;
+    } catch (err) {
+        console.log(err);
+        throw Error(`Could not delete itinerary: ${err.message}`);
+    }
+}
+
+
+
+export { connect, createItinerary, getItineraries, getItinerary, updateItinerary, deleteItinerary };
