@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ItineraryTable from "./components/ItineraryTable";
 import { useNavigate } from "react-router-dom";
-
-// Define a constant for the base URL
-const BASE_URL = 'http://localhost:5173'; // Change the port here if needed
+import BASE_URL from './config';
 
 const ItineraryListPage = () => {
   const [itineraries, setItineraries] = useState([]);

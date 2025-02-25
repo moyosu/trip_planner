@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-// Define a constant for the base URL
-const BASE_URL = 'http://localhost:5173'; // Change the port here if needed
+import BASE_URL from './config';
 
 const EditItineraryPage = () => {
   const { id } = useParams(); // Get the itinerary ID from the URL
@@ -23,7 +21,6 @@ const EditItineraryPage = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched itinerary data:', data); // Log the fetched data
         setItinerary(data); // Set the fetched itinerary data to state
       } catch (error) {
         console.error('Failed to fetch itinerary:', error);
@@ -35,12 +32,10 @@ const EditItineraryPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Updating itinerary field: ${name} with value: ${value}`); // Log the field being updated
     setItinerary((prev) => ({ ...prev, [name]: value })); // Update state on input change
   };
 
   const handleUpdateItinerary = async () => {
-    console.log('Updating itinerary with data:', itinerary); // Log the itinerary data being updated
     try {
       const response = await fetch(`${BASE_URL}/itineraries/${id}`, {
         method: 'PUT',
@@ -54,8 +49,6 @@ const EditItineraryPage = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.json();
-      console.log('Itinerary updated:', result); // Log the result of the update
       navigate("/homepage"); // Navigate back after updating
     } catch (error) {
       console.error('Error updating itinerary:', error);
@@ -88,6 +81,9 @@ const EditItineraryPage = () => {
           onChange={handleChange} 
         />
         <button onClick={handleUpdateItinerary}>Update Itinerary</button>
+        <button onClick={() => navigate("/homepage")}>Back to Homepage</button>
+        <br/>
+        <label> Ensure the dates are in MM-DD-YYYY format.</label>
       </div>
     </div>
   );
